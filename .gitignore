@@ -75,6 +75,7 @@ monday_logo_icon_*.png
 # public/fonts/
 contenido-monday/
 /fonts/
+/FONT/
 
 # Assets sueltos sin relación con la app actual
 agentes/

@@ -1,16 +1,72 @@
 /* ===== Tipografía de marca monday.com (archivos en public/fonts) ===== */
 @font-face {
     font-family: 'Figtree';
-    src: url('./fonts/Figtree/Figtree-VariableFont_wght.ttf') format('truetype-variations');
-    font-weight: 300 900;
+    src: url('./fonts/Figtree/Figtree-Regular.ttf') format('truetype');
+    font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 @font-face {
     font-family: 'Figtree';
-    src: url('./fonts/Figtree/Figtree-Italic-VariableFont_wght.ttf') format('truetype-variations');
-    font-weight: 300 900;
+    src: url('./fonts/Figtree/Figtree-Italic.ttf') format('truetype');
+    font-weight: 400;
     font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Figtree';
+    src: url('./fonts/Figtree/Figtree-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Figtree';
+    src: url('./fonts/Figtree/Figtree-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Figtree';
+    src: url('./fonts/Figtree/Figtree-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Figtree';
+    src: url('./fonts/Figtree/Figtree-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Figtree';
+    src: url('./fonts/Figtree/Figtree-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Figtree';
+    src: url('./fonts/Figtree/Figtree-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Figtree';
+    src: url('./fonts/Figtree/Figtree-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Figtree';
+    src: url('./fonts/Figtree/Figtree-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
     font-display: swap;
 }
 @font-face {
@@ -812,12 +868,13 @@ h1, h2, .brand-title {
     padding: 16px 24px;
     z-index: 5000;
     pointer-events: none;
+    background: #ffffff;
+    border-bottom: 1px solid #e9ecef;
 }
 
 .mdb-brand-bar img {
     height: 52px;
     width: auto;
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
 }
 
 @media (max-width: 600px) {
