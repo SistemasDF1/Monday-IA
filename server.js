@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 3000;
 const PUBLIC_URL = (process.env.PUBLIC_URL || process.env.RENDER_EXTERNAL_URL || '').replace(/\/$/, '');
 
 // Sirve para comprobar de un vistazo que el proceso corre el codigo actual.
-const MOTOR = 'personaje-abrazo-v7';
+const MOTOR = 'personaje-abrazo-v8';
 
 // Carpeta donde vive todo lo que debe sobrevivir.
 // En Render el disco del contenedor se borra en cada deploy: hay que montar un
@@ -158,7 +158,7 @@ QUÉ DEBES DIBUJAR:
 Una escena con AMBOS personajes de pie, posando juntos en esta pose específica: ${pose}
 
 - El personaje de monday.com (segunda imagen): EXACTAMENTE igual a la referencia, sin cambiar su traje, sus colores ni sus accesorios.
-- El segundo personaje es la persona de la PRIMERA imagen, con su cara real y su tono de piel real (ver arriba) y su cabello real (mismo color, largo y peinado), convertida al estilo de caricatura 3D descrito arriba (ver TAREA MÁS IMPORTANTE): estilizada como figura de colección, pero reconocible como ella. Dale ropa casual simple y neutra: NO le pongas el traje de monday.com ni copies la ropa de la foto original.
+- El segundo personaje es la persona de la PRIMERA imagen, con su cara real y su tono de piel real (ver arriba) y su cabello real (mismo color, largo y peinado), convertida al estilo de caricatura 3D descrito arriba (ver TAREA MÁS IMPORTANTE): estilizada como figura de colección, pero reconocible como ella. VESTUARIO: cópialo de la PRIMERA imagen. Fíjate qué ropa trae puesta la persona (tipo de prenda, color, estampado o textura si tiene) y dibújala con esa misma ropa, adaptada al estilo de render 3D. NO le pongas el traje de monday.com.
 - LENTES: mira la PRIMERA imagen con cuidado. Si la persona NO trae lentes puestos, dibújala SIN lentes de ningún tipo (ni de sol ni graduados, ni goggles). Si SÍ trae lentes en la foto, cópialos tal cual. Los goggles/gafas del personaje de monday.com son SOLO de ese personaje: no se los pongas a la persona por imitación, aunque el personaje los lleve puestos.
 - Ambos personajes deben compartir el MISMO estilo de render, la misma calidad de materiales, la misma iluminación y proporciones de mascota/figura de colección.
 
