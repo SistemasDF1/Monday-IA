@@ -1,0 +1,1270 @@
+/* ===== Tipografía de marca monday.com (archivos en public/fonts) ===== */
+@font-face {
+    font-family: 'Figtree';
+    src: url('./fonts/Figtree/Figtree-VariableFont_wght.ttf') format('truetype-variations');
+    font-weight: 300 900;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Figtree';
+    src: url('./fonts/Figtree/Figtree-Italic-VariableFont_wght.ttf') format('truetype-variations');
+    font-weight: 300 900;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/Poppins/Poppins-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/Poppins/Poppins-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/Poppins/Poppins-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Círculo rojo de eliminar foto (remove-btn) más pequeño en móvil */
+@media (max-width: 600px) {
+    .remove-btn {
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px !important;
+        min-height: 28px !important;
+        padding: 0 !important;
+    }
+    .remove-btn span {
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 1.1rem !important;
+    }
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Paleta oficial monday.com */
+    --mdb-spring-green: #6161FF;   /* Lunes morado (color primario) */
+    --mdb-forest-green: #2E19AA;   /* Morado oscuro, para hover */
+    --mdb-evergreen: #181B34;      /* Lunes oscuro */
+    --mdb-slate-blue: #181B34;     /* Lunes oscuro */
+    --mdb-mist: #F0F3FF;           /* Luz del lunes */
+    --mdb-lavanda: #DED4FC;        /* Lavanda de apoyo */
+    --mdb-perla-negra: #12132b;
+    --mdb-alabastro: #FAFAFA;
+    --mdb-white: #FFFFFF;
+
+    /* Colores de apoyo monday.com */
+    --monday-blue-light: #97AEFF;
+    --monday-green: #00CA72;
+    --monday-yellow: #FFCC00;
+    --monday-red: #FB275D;
+
+    --primary: var(--mdb-spring-green);
+    --primary-dark: var(--mdb-forest-green);
+    --secondary: var(--mdb-slate-blue);
+    --accent: var(--mdb-spring-green);
+    --success: var(--monday-green);
+    --warning: var(--monday-yellow);
+    --danger: var(--monday-red);
+    --dark: var(--mdb-slate-blue);
+    --light: var(--mdb-mist);
+    --gray: #5C6C75;
+    --border: #C1C7C6;
+    --shadow: rgba(24, 27, 52, 0.15);
+
+    /* Superficies reutilizadas por las tarjetas del wizard */
+    --mdb-card-bg: linear-gradient(135deg, rgba(97, 97, 255, 0.92), rgba(46, 25, 170, 0.96));
+    --mdb-btn: var(--mdb-spring-green);
+}
+
+body {
+    font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+    color: var(--dark);
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ===== Fondo de marca MongoDB =====
+   Base casi negra azulada + retícula tenue + resplandor verde,
+   como en mongodb.com. Todo en CSS: no hace falta video ni imagen. */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background-color: var(--mdb-white);
+    background-image:
+        /* retícula */
+        linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+    background-size: 88px 88px, 88px 88px;
+    background-position: center top;
+}
+
+/* Capa de luz: resplandor morado suave arriba y a los lados */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 70% 46% at 50% -4%, rgba(97, 97, 255, 0.16), transparent 62%),
+        radial-gradient(ellipse 52% 60% at 2% 34%, rgba(97, 97, 255, 0.10), transparent 66%),
+        radial-gradient(ellipse 52% 60% at 98% 34%, rgba(97, 97, 255, 0.08), transparent 66%);
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInDown 0.8s ease;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.emoji {
+    font-size: 3rem;
+    animation: bounce 2s infinite;
+}
+
+.header h1 {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+}
+
+/* Main Content */
+.main-content {
+    display: grid;
+    gap: 2rem;
+}
+
+.card {
+    /* background: white; */
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    animation: fadeInUp 0.8s ease;
+}
+
+.card h2 {
+    color: var(--dark);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Upload Area */
+.upload-area {
+    position: relative;
+    border: 3px dashed var(--border);
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* background: var(--light); */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-area:hover {
+    border-color: var(--primary);
+    background: #f0f0ff;
+}
+
+.upload-area.drag-over {
+    border-color: var(--primary);
+    background: #e0e7ff;
+    transform: scale(1.02);
+}
+
+.upload-placeholder {
+    color: var(--gray);
+}
+
+.upload-placeholder svg {
+    margin-bottom: 1rem;
+    color: var(--primary);
+}
+
+.upload-placeholder p {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--dark);
+}
+
+.file-info {
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+
+.preview-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-container img {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.remove-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--danger);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+}
+
+.remove-btn:hover {
+    background: #dc2626;
+    transform: scale(1.1);
+}
+
+/* Campo de la historia */
+#storyInput {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--border);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+    transition: all 0.3s ease;
+}
+
+#storyInput:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(97, 97, 255, 0.25);
+}
+
+.prompt-examples {
+    margin-top: 1.5rem;
+}
+
+.prompt-examples p {
+    margin-bottom: 0.75rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.example-btn {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin: 0.25rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.example-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* Generate Button */
+.generate-btn {
+    width: 100%;
+    padding: 1.25rem 2rem;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(16, 185, 129, 0.8));
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.generate-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(16, 185, 129, 0.9));
+    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.generate-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.generate-btn:disabled {
+    background: rgba(108, 117, 125, 0.6);
+    cursor: not-allowed;
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+    transform: none;
+}
+
+
+
+.btn-icon {
+    font-size: 1.5rem;
+}
+
+/* Result Section */
+.result-card {
+    animation: fadeInUp 0.8s ease;
+}
+
+/* El cómic y el QR se muestran lado a lado: si el QR queda debajo de una
+   página de 2400x3600, hay que hacer scroll para verlo y en el evento se pierde. */
+.result-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.result-card > h2 {
+    flex: 1 0 100%;
+    text-align: center;
+}
+
+.result-image-container {
+    flex: 1 1 320px;
+    margin: 0;
+    text-align: center;
+}
+
+.result-image-container img {
+    max-width: 100%;
+    max-height: 68vh;      /* sin esto la página empuja el QR fuera de la pantalla */
+    width: auto;
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Columna lateral: primero los botones, y debajo el QR */
+.result-side {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+#qr-container {
+    margin: 0 !important;
+}
+
+.result-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 0 !important;
+}
+
+@media (max-width: 700px) {
+    .result-card {
+        flex-direction: column;
+        align-items: center;
+    }
+    .result-image-container img {
+        max-height: 40vh;
+    }
+}
+
+.action-btn {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.download-btn {
+    background: var(--success);
+    color: white;
+}
+
+.download-btn:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+.action-btn.secondary {
+    background: var(--light);
+    color: var(--dark);
+    border: 2px solid var(--border);
+}
+
+.action-btn.secondary:hover {
+    background: var(--border);
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.loading-content {
+    text-align: center;
+    color: white;
+}
+
+.loading-content p {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.loading-content small {
+    display: block;
+    margin-top: 0.5rem;
+    opacity: 0.8;
+}
+
+/* Loader original */
+/* Cargador: el logomark de MongoDB latiendo, en vez de dos círculos genéricos */
+.loader {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Halo que se expande detrás de la hoja */
+.loader::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(97, 97, 255, 0.35), transparent 70%);
+    animation: pulsoHalo 1.6s ease-in-out infinite;
+}
+
+.loader::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    background-image: url('./img/monday/monday_icon.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    animation: latidoHoja 1.6s ease-in-out infinite;
+    filter: drop-shadow(0 4px 14px rgba(97, 97, 255, 0.45));
+}
+
+@keyframes pulsoHalo {
+    0%, 100% { transform: scale(0.85); opacity: 0.55; }
+    50%      { transform: scale(1.15); opacity: 0.15; }
+}
+
+@keyframes latidoHoja {
+    0%, 100% { transform: scale(1)    rotate(0deg); }
+    30%      { transform: scale(1.12) rotate(-4deg); }
+    60%      { transform: scale(0.96) rotate(3deg); }
+}
+
+/* Spinner alternativo (mantener por compatibilidad) */
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--dark);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 1001;
+    max-width: 400px;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.toast.success {
+    background: var(--success);
+}
+
+.toast.error {
+    background: var(--danger);
+}
+
+/* Camera Modal */
+.camera-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.camera-content {
+    background: #fff;
+    padding: 32px 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#cameraVideo {
+    width: 320px;
+    height: 240px;
+    background: #222;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    object-fit: cover;
+    display: block;
+}
+
+#captureBtn,
+#closeCameraBtn {
+    margin: 8px 4px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Los colores de estos botones están en el bloque de paleta, más abajo */
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 3rem;
+    color: rgba(255, 255, 255, 0.9);
+    animation: fadeIn 1s ease;
+}
+
+.footer .small {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-top: 0.5rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes bounce {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+#imagePreview.required {
+    box-shadow: 0 0 0 4px var(--danger);
+    border: 2px solid var(--danger);
+    animation: shake 0.3s;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-8px);
+    }
+    50% {
+        transform: translateX(8px);
+    }
+    75% {
+        transform: translateX(-8px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .card {
+        padding: 1.5rem;
+    }
+
+    .result-actions {
+        flex-direction: column;
+    }
+
+    .toast {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+    }
+
+    .upload-area {
+        margin-top: 40px;
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .upload-area {
+        margin-top: 20px;
+        padding: 1.5rem 1rem;
+    }
+}
+
+
+/* ===== Marca monday.com ===== */
+h1, h2, .brand-title {
+    font-family: 'Poppins', 'Figtree', system-ui, sans-serif;
+    font-weight: 800;
+}
+
+.mdb-brand-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    z-index: 5000;
+    pointer-events: none;
+}
+
+.mdb-brand-bar img {
+    height: 52px;
+    width: auto;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+
+@media (max-width: 600px) {
+    .mdb-brand-bar {
+        padding: 12px 16px;
+    }
+    .mdb-brand-bar img {
+        height: 38px;
+    }
+}
+
+
+/* ===== Tarjetas seleccionables del wizard =====
+   Sin user-select el navegador dibuja el cursor de texto (una barra vertical)
+   dentro de la tarjeta al hacer clic. */
+.sexo-option,
+.style-option {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    caret-color: transparent;
+    outline: none;
+}
+
+.sexo-option *,
+.style-option * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+
+/* Los formularios no heredan la tipografía por defecto en ningún navegador */
+button, input, textarea, select {
+    font-family: inherit;
+}
+
+
+/* ===== Botones con los colores oficiales de la paleta =====
+   Plano, sin degradados: morado sobre blanco es la combinación principal
+   de monday.com. El morado es medio-oscuro, así que el texto va en blanco
+   (con el verde de MongoDB, más claro, funcionaba con texto oscuro; con
+   morado no hay contraste suficiente). */
+.btn-mdb,
+.camera-btn,
+.generate-btn,
+.action-btn.download-btn {
+    background: var(--mdb-spring-green) !important;
+    color: var(--mdb-white) !important;
+    border: none !important;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(97, 97, 255, 0.28) !important;
+}
+
+.btn-mdb:hover:not(:disabled),
+.camera-btn:hover:not(:disabled),
+.generate-btn:hover:not(:disabled),
+.action-btn.download-btn:hover:not(:disabled) {
+    background: var(--mdb-forest-green) !important;
+    color: var(--mdb-white) !important;
+}
+
+/* Secundario: fondo claro de la paleta */
+.action-btn.secondary,
+.btn-mdb-secundario {
+    background: var(--mdb-mist) !important;
+    color: var(--mdb-evergreen) !important;
+    border: none !important;
+    font-weight: 700;
+}
+
+.action-btn.secondary:hover,
+.btn-mdb-secundario:hover {
+    background: var(--mdb-white) !important;
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: none !important;
+}
+
+/* ===== Botón de pantalla completa ===== */
+.btn-pantalla {
+    position: fixed;
+    top: 14px;
+    right: 16px;
+    z-index: 6000;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: var(--mdb-spring-green);
+    transition: all 0.25s ease;
+}
+
+.btn-pantalla:hover {
+    color: var(--mdb-forest-green);
+}
+
+.btn-pantalla svg { width: 22px; height: 22px; }
+
+/* ===== Todo cabe en una pantalla, sin scroll ===== */
+html, body { height: 100%; }
+
+body {
+    overflow: hidden;   /* el contenido se ajusta; no debe hacer falta scroll */
+}
+
+.container {
+    max-height: 100vh;
+}
+
+/* El preview de la foto no puede empujar el resto fuera de la pantalla */
+.preview-container img,
+#imagePreview {
+    max-height: 26vh !important;
+    width: auto !important;
+    object-fit: contain;
+}
+
+#storyInput {
+    max-height: 18vh;
+}
+
+@media (max-height: 700px) {
+    #imagePreview { max-height: 20vh !important; }
+    #storyInput { max-height: 14vh; }
+}
+
+
+/* ===== La pantalla de foto + historia debe caber sin scroll =====
+   Se compacta todo: el área de carga tenía 3rem de padding y el preview
+   ocupaba casi media pantalla. */
+#generatorContainer .upload-area {
+    padding: 0.9rem 0.8rem !important;
+    border-width: 2px;
+    margin-bottom: 0.6rem;
+}
+
+#generatorContainer .card {
+    padding: 0.9rem !important;
+    box-shadow: none !important;
+}
+
+#generatorContainer .main-content {
+    gap: 0.6rem !important;
+    padding: 14px !important;
+}
+
+#imagePreview {
+    max-height: 22vh !important;
+}
+
+#storyCard {
+    margin-top: 8px !important;
+}
+
+#storyCard h3 { font-size: 1.05rem; margin-bottom: 2px !important; }
+#storyCard p  { font-size: 0.85rem !important; margin-bottom: 8px !important; }
+
+#storyInput {
+    max-height: 13vh;
+    padding: 10px 12px !important;
+    font-size: 0.95rem !important;
+}
+
+#storyHint {
+    margin-top: 8px !important;
+    padding: 8px 12px !important;
+    font-size: 0.85rem !important;
+}
+
+.generate-btn {
+    padding: 0.85rem 1.5rem !important;
+    margin-top: 0.4rem;
+}
+
+.camera-btn {
+    padding: 12px 24px !important;
+    font-size: 1rem !important;
+}
+
+/* Pantallas de portátil con poca altura */
+@media (max-height: 800px) {
+    #imagePreview { max-height: 18vh !important; }
+    #storyInput   { max-height: 11vh; }
+    #storyCard p  { display: none; }
+}
+
+
+/* ===== Miniaturas de los estilos de dibujo ===== */
+.style-thumb {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    display: block;
+    background: transparent;
+}
+
+.style-option {
+    padding: 10px !important;
+    gap: 8px !important;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+/* Cuatro por fila: con 7-8 tarjetas quedan filas parejas y tarjetas grandes */
+#styles-grid,
+#personaje-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 18px !important;
+    max-width: 840px;
+    width: 100%;
+}
+
+.style-option span {
+    font-size: 1rem !important;
+}
+
+/* En pantallas de poca altura se encoge lo justo para no provocar scroll */
+@media (max-height: 820px) {
+    #styles-grid, #personaje-grid { gap: 12px !important; max-width: 720px; }
+    .style-option { padding: 8px !important; }
+    .style-option span { font-size: 0.88rem !important; }
+}
+
+@media (max-height: 700px) {
+    #styles-grid, #personaje-grid { gap: 9px !important; max-width: 640px; }
+    .style-option span { font-size: 0.8rem !important; }
+}
+
+/* En móvil, dos columnas */
+@media (max-width: 700px) {
+    #styles-grid,
+    #personaje-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        max-width: 380px;
+    }
+}
+
+
+/* ===== Títulos en negro sobre las tarjetas blancas =====
+   El degradado morado se leía mal: se apagaba casi a blanco a la derecha. */
+#personaje-section h2,
+#tituloFoto,
+.result-card h2,
+.titulo-degradado {
+    color: var(--mdb-slate-blue) !important;
+    text-shadow: none !important;
+
+    font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
+}
+
+/* Los títulos se encogen en pantallas bajas para no forzar scroll */
+@media (max-height: 820px) {
+    #personaje-section h2,
+    #tituloFoto,
+    .result-card h2 { font-size: 2rem !important; }
+}
+
+@media (max-height: 700px) {
+    #personaje-section h2,
+    #tituloFoto,
+    .result-card h2 { font-size: 1.7rem !important; }
+}
+
+@media (max-width: 700px) {
+    #personaje-section h2,
+    #tituloFoto,
+    .result-card h2 { font-size: 1.9rem !important; }
+}
+
+
+/* ===== Modal de cámara con la paleta de marca =====
+   Estos botones se habían quedado en el naranja del proyecto anterior. */
+#captureBtn {
+    background: var(--mdb-spring-green) !important;
+    color: var(--mdb-white) !important;
+    border: none !important;
+    padding: 14px 30px !important;
+    border-radius: 28px !important;
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(97, 97, 255, 0.3) !important;
+    transition: all 0.25s ease;
+}
+
+#captureBtn:hover {
+    background: var(--mdb-forest-green) !important;
+    color: var(--mdb-white) !important;
+    transform: translateY(-2px);
+}
+
+#closeCameraBtn {
+    background: transparent !important;
+    color: var(--mdb-alabastro) !important;
+    border: 2px solid rgba(250, 250, 250, 0.45) !important;
+    padding: 12px 28px !important;
+    border-radius: 28px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+#closeCameraBtn:hover {
+    background: var(--mdb-alabastro) !important;
+    color: var(--mdb-evergreen) !important;
+    border-color: var(--mdb-alabastro) !important;
+}
+
+/* El modal usa el negro de marca en vez de un gris cualquiera */
+.camera-modal {
+    background: rgba(6, 22, 33, 0.92) !important;
+}
+
+
+/* El recuadro punteado del área de foto sobra: ya no es una zona donde soltar
+   archivos, solo contiene el botón de cámara y la vista previa. */
+#generatorContainer .upload-area {
+    border: none !important;
+    background: transparent !important;
+}
+
+#generatorContainer .upload-area:hover {
+    background: transparent !important;
+}
+
+
+/* ===== Selección de tarjetas =====
+   El borde gris del estado seleccionado apenas se distinguía. */
+.style-option,
+.sexo-option {
+    border: 3px solid transparent !important;
+    box-shadow: 0 2px 8px rgba(6, 22, 33, 0.25);
+    position: relative;
+}
+
+.style-option.seleccionado,
+.sexo-option.seleccionado {
+    border-color: var(--mdb-spring-green) !important;
+    box-shadow: 0 0 0 4px rgba(97, 97, 255, 0.28), 0 8px 26px rgba(97, 97, 255, 0.35) !important;
+    transform: scale(1.05);
+}
+
+/* ===== Figura del personaje en la tarjeta de sexo =====
+   Las dos imágenes van apiladas: se muestra la normal y, al seleccionar
+   la tarjeta, aparece la variante hombre2 sin recargar nada. */
+/* La tarjeta no lleva fondo: el PNG del personaje ya es transparente y
+   se recorta contra el degradado de la pantalla. */
+.sexo-option {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.sexo-option span {
+    color: #ffffff !important;
+    text-shadow: 0 2px 6px rgba(6, 22, 33, 0.55);
+}
+
+.sexo-option.seleccionado {
+    background: rgba(97, 97, 255, 0.12) !important;
+}
+
+.sexo-figura {
+    position: relative;
+    width: 100%;
+    max-width: 190px;
+    aspect-ratio: 1 / 1;
+}
+
+.sexo-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.25s ease;
+}
+
+.sexo-img-activa {
+    opacity: 0;
+}
+
+.sexo-option.seleccionado .sexo-img-normal {
+    opacity: 0;
+}
+
+.sexo-option.seleccionado .sexo-img-activa {
+    opacity: 1;
+}
+
+/* Palomita de confirmación en la esquina */
+.style-option.seleccionado::after,
+.sexo-option.seleccionado::after {
+    content: '✓';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--mdb-spring-green);
+    color: var(--mdb-slate-blue);
+    font-size: 17px;
+    font-weight: 900;
+    line-height: 30px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(6, 22, 33, 0.45);
+}
+
+
+/* En pantallas de poca altura el logo cede espacio al contenido */
+@media (max-height: 760px) {
+    .mdb-brand-bar { padding: 10px 20px; }
+    .mdb-brand-bar img { height: 40px; }
+}
+
+
+/* El panel del generador se centra en la pantalla, sin pegarse al logo */
+#generatorContainer {
+    display: none;            /* lo activa el JS con flex */
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+#generatorContainer .main-content {
+    margin: 0 auto !important;
+}
+
+/* Deja sitio al logo cuando el panel es alto */
+@media (min-height: 700px) {
+    #generatorContainer { padding-top: 70px !important; }
+}

@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>monday.com · Crea tu imagen con IA</title>
+    <link rel="icon" type="image/png" href="/img/monday/monday_icon.png">
+    <link rel="apple-touch-icon" href="/img/monday/monday_icon.png">
+    <link rel="stylesheet" href="style.css?v=26">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            font-family: 'Euclid Circular A', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        /* Estilos para botón de cámara */
+        .camera-btn {
+            background: #6161FF;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(97, 97, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px auto;
+            min-width: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .camera-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(97, 97, 255, 0.35);
+            background: #2E19AA;
+        }
+        
+        .camera-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 6px 20px rgba(97, 97, 255, 0.3);
+        }
+        
+        .camera-btn svg {
+            transition: transform 0.3s ease;
+        }
+        
+        .camera-btn:hover svg {
+            transform: scale(1.1);
+        }
+        
+        .camera-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .camera-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Estilos para botón de generar imagen */
+        .generate-btn {
+            background: linear-gradient(135deg, #6161FF 0%, #97AEFF 100%);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(97, 97, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 25px auto;
+            min-width: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(97, 97, 255, 0.4);
+            background: linear-gradient(135deg, #97AEFF 0%, #6161FF 100%);
+        }
+        
+        .generate-btn:active:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(97, 97, 255, 0.3);
+        }
+        
+        .generate-btn:disabled {
+            background: #181B34;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+        
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+        
+        .generate-btn:hover:not(:disabled)::before {
+            left: 100%;
+        }
+        
+        /* Estilos para modal de cámara */
+        .camera-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .camera-modal[style*="block"] {
+            display: flex !important;
+        }
+        
+        .camera-content {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            max-width: 800px;
+            height: 859px;
+            width: 100%;
+            max-height: 150%;
+            box-shadow: 0 8px 32px rgba(24, 27, 52, 0.25);
+        }
+        
+        #cameraVideo {
+            width: 100%;
+            max-width: 800px;
+            height: 820px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
+            background: #000;
+        }
+        
+        /* El aspecto de estos botones vive en style.css, con la paleta de marca */
+        #captureBtn, #closeCameraBtn {
+            margin: 10px 15px;
+        }
+        
+        /* El cargador vive en style.css: usa el logomark de MongoDB */
+        
+        
+        /*  loader    */
+        .logo-corner {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            transform: none;
+            z-index: 1000;
+            text-align: left;
+            pointer-events: auto;
+        }
+        .logo-corner img {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            opacity: 0.95;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+        .logo-corner img:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+        /* Estilo GLS (glass) para ventanas */
+        .gls-window {
+            background: rgba(18, 78, 140, 0.38) !important;
+            border: 1px solid rgba(120, 180, 255, 0.45) !important;
+            box-shadow: 0 12px 40px rgba(6, 30, 60, 0.35) !important;
+            backdrop-filter: blur(16px) saturate(170%);
+            -webkit-backdrop-filter: blur(16px) saturate(170%);
+        }
+        .gls-window h2,
+        .gls-window h3,
+        .gls-window p,
+        .gls-window label,
+        .gls-window span,
+        .gls-window div {
+            color: #eaf3ff;
+        }
+        .gls-window input {
+            background: rgba(8, 40, 90, 0.35);
+            color: #ffffff;
+            border: 1px solid rgba(120, 180, 255, 0.45);
+        }
+        .gls-window input::placeholder {
+            color: rgba(234, 243, 255, 0.75);
+        }
+        .avatar {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 50%;
+        }
+        .avatar.selected img {
+           
+            box-shadow: 0 0 15px rgba(67, 68, 68, 0.5);
+            transform: scale(1.05);
+        }
+        .hair-option.selected {
+            background: #434444ff !important;
+            color: white !important;
+            border-color: #434444ff !important;
+        }
+        .skin-option.selected {
+            background: #434444ff !important;
+            border-color: #434444ff !important;
+        }
+        .skin-option.selected span {
+            color: white !important;
+        }
+        .accessory-option.selected {
+            background: #434444ff !important;
+            color: white !important;
+            border-color: #434444ff !important;
+        }
+
+        /* Media Queries para Responsividad */
+        @media (max-width: 768px) {
+            .logo-corner img {
+                width: 200px;
+                top: 10px;
+                left: 10px;
+            }
+            
+            .title {
+                font-size: 1.8rem !important;
+                margin-bottom: 40px !important;
+            }
+            
+            .avatars-container {
+                flex-direction: column !important;
+                gap: 20px !important;
+                align-items: center !important;
+            }
+            
+            .avatar img {
+                width: 150px !important;
+                height: 150px !important;
+            }
+            
+            #inicioContainer {
+                padding-top: 25vh !important;
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+            }
+            
+            .name-section, .customization-section {
+                min-width: 90% !important;
+                max-width: 95% !important;
+                padding: 15px !important;
+                margin: 5px !important;
+                position: fixed !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                max-height: 95vh !important;
+                overflow-y: auto !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* Ajustes específicos para customization-section en móvil */
+            .customization-section {
+                min-width: 95% !important;
+                max-width: 98% !important;
+                padding: 10px !important;
+            }
+            
+            /* Ajustes para el contenido de deseos */
+            .customization-section h3 {
+                font-size: 1rem !important;
+                margin-bottom: 8px !important;
+            }
+            
+            .customization-section p {
+                font-size: 0.8rem !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .accessory-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 8px !important;
+                max-width: 100% !important;
+                margin: 0 auto !important;
+            }
+            
+            .accessory-option {
+                padding: 8px !important;
+                font-size: 0.7rem !important;
+                border-radius: 8px !important;
+                text-align: center !important;
+            }
+            
+            /* Contador de accesorios en móvil */
+            .customization-section span {
+                font-size: 0.8rem !important;
+                padding: 4px 10px !important;
+            }
+            
+            /* Botón continuar en móvil */
+            #continue-photo-button {
+                padding: 10px 20px !important;
+                font-size: 0.9rem !important;
+                margin-top: 15px !important;
+            }
+            
+            /* Ajustes específicos para el generador en móvil */
+            #generatorContainer .main-content {
+                width: 95% !important;
+                max-width: 95% !important;
+                min-width: unset !important;
+                max-height: 80vh !important;
+                margin-top: 10px !important;
+                padding: 15px !important;
+                box-sizing: border-box !important;
+            }
+            
+            .camera-btn, .generate-btn {
+                padding: 12px 20px !important;
+                font-size: 0.9rem !important;
+                margin: 8px auto !important;
+                width: 100% !important;
+                max-width: 200px !important;
+                box-sizing: border-box !important;
+            }
+            
+            
+            h2 {
+                font-size: 1.3rem !important;
+            }
+            
+            h3 {
+                font-size: 1.1rem !important;
+            }
+            
+            button {
+                padding: 10px 20px !important;
+                font-size: 1rem !important;
+            }
+
+            .styles-grid {
+                grid-template-columns: repeat(2, minmax(130px, 1fr)) !important;
+                gap: 14px !important;
+                max-width: 100% !important;
+                padding: 0 6px !important;
+            }
+
+            .style-option {
+                padding: 12px !important;
+                border-radius: 12px !important;
+            }
+
+            #personaje-section {
+                padding: 20px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-corner {
+                position: fixed !important;
+                top: 10px !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                width: 100% !important;
+                text-align: center !important;
+            }
+            
+            .logo-corner img {
+                width: 220px;
+            }
+            
+            .title {
+                font-size: 1.5rem !important;
+                margin-bottom: 30px !important;
+            }
+            
+            .avatar img {
+                width: 150px !important;
+                height: 150px !important;
+            }
+            
+            #inicioContainer {
+                padding-top: 0vh !important;
+                padding-left: 15px !important;
+                padding-right: 15px !important;
+            }
+            
+            .name-section, .customization-section {
+                min-width: 98% !important;
+                max-width: 99% !important;
+                padding: 8px !important;
+                max-height: 98vh !important;
+                overflow-y: auto !important;
+                box-sizing: border-box !important;
+                margin: 2px !important;
+            }
+            
+            /* Ajustes específicos para deseos en móvil pequeño */
+            .customization-section h3 {
+                font-size: 0.9rem !important;
+                margin-bottom: 5px !important;
+            }
+            
+            .customization-section p {
+                font-size: 0.7rem !important;
+                margin-bottom: 8px !important;
+            }
+            
+            .accessory-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 6px !important;
+                max-width: 100% !important;
+            }
+            
+            .accessory-option {
+                padding: 6px !important;
+                font-size: 0.65rem !important;
+                border-radius: 6px !important;
+                min-height: 40px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            
+            /* Contador más pequeño */
+            .customization-section span {
+                font-size: 0.7rem !important;
+                padding: 3px 8px !important;
+            }
+            
+            #continue-photo-button {
+                padding: 8px 16px !important;
+                font-size: 0.8rem !important;
+                margin-top: 10px !important;
+            }
+            
+            /* Ajustes específicos para el generador en móvil pequeño */
+            #generatorContainer .main-content {
+                width: 98% !important;
+                max-width: 98% !important;
+                min-width: unset !important;
+                max-height: 85vh !important;
+                margin-top: 8px !important;
+                padding: 10px !important;
+                box-sizing: border-box !important;
+                margin: 0 !important;
+            }
+
+            #generatorContainer .card {
+                margin-top: 0 !important;
+            }
+            
+            .camera-btn, .generate-btn {
+                padding: 10px 15px !important;
+                font-size: 0.8rem !important;
+                margin: 5px auto !important;
+                width: 100% !important;
+                max-width: 180px !important;
+                box-sizing: border-box !important;
+            }
+            
+            .result-image-container img {
+                max-width: 100% !important;
+                height: auto !important;
+                max-height: 40vh !important;
+            }
+            
+            h2 {
+                font-size: 1.2rem !important;
+            }
+            
+            h3 {
+                font-size: 1rem !important;
+            }
+
+            .styles-grid {
+                grid-template-columns: repeat(2, minmax(120px, 1fr)) !important;
+                gap: 10px !important;
+                max-width: 100% !important;
+                padding: 0 4px !important;
+            }
+
+            .style-option {
+                padding: 10px !important;
+                border-radius: 10px !important;
+            }
+
+            #personaje-section {
+                padding: 15px !important;
+            }
+
+            .frame-options-container {
+                display: grid !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px !important;
+            }
+
+            .frame-option {
+                width: 100% !important;
+                padding: 10px !important;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .logo-corner img {
+                width: 250px;
+            }
+            
+            .avatars-container {
+                gap: 30px !important;
+            }
+            
+            .avatar img {
+                width: 150px !important;
+                height: 150px !important;
+            }
+            
+            .name-section, .customization-section, .main-content {
+                min-width: 500px !important;
+                max-width: 80% !important;
+            }
+            
+            .accessory-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+                max-width: 550px !important;
+            }
+        }
+        
+        /* Ajustes para orientación landscape en móviles */
+        @media (max-height: 500px) and (orientation: landscape) {
+            #inicioContainer {
+                padding-top: 1vh !important;
+            }
+            
+            .name-section, .customization-section {
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+            }
+            
+            #generatorContainer .main-content {
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                width: 90% !important;
+                padding: 8px !important;
+            }
+            
+            .title {
+                margin-bottom: 20px !important;
+                font-size: 1.3rem !important;
+            }
+        }
+        
+        /* Ajuste especial para pantallas muy pequeñas */
+        @media (max-height: 600px) {
+            #inicioContainer {
+                padding-top: 20vh !important;
+            }
+            
+            .name-section, .customization-section {
+                max-height: 85vh !important;
+                overflow-y: auto !important;
+            }
+            
+            #generatorContainer .main-content {
+                max-height: 85vh !important;
+                overflow-y: auto !important;
+                padding: 8px !important;
+            }
+        }
+        
+        /* Estilos adicionales para prevenir overflow */
+        .upload-section, .result-section {
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        
+        .card {
+            box-sizing: border-box !important;
+            width: 100% !important;
+          
+        }
+        
+        .preview-container img, .result-image-container img {
+            max-width: 100% !important;
+            height: auto !important;
+            box-sizing: border-box !important;
+        }
+        
+        @media (max-width: 768px) {
+            .preview-container img {
+                max-height: 25vh !important;
+            }
+            
+            .result-image-container img {
+                max-height: 60vh !important;
+                object-fit: contain !important;
+            }
+
+            .result-section {
+                width: 100% !important;
+            }
+
+            .result-card {
+                width: 100% !important;
+                padding: 16px !important;
+            }
+
+            #generatorContainer .main-content {
+                max-height: 95vh !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .preview-container img {
+                max-height: 20vh !important;
+            }
+            
+            .result-image-container img {
+                max-height: 70vh !important;
+                object-fit: contain !important;
+            }
+
+            .result-section {
+                width: 100% !important;
+            }
+
+            .result-card {
+                width: 100% !important;
+                padding: 12px !important;
+            }
+
+            #generatorContainer .main-content {
+                max-height: 96vh !important;
+            }
+        }
+    </style>
+</head>
+    <body oncontextmenu="return false;">
+    <div class="mdb-brand-bar">
+        <img src="img/monday/monday_logo_white.svg" alt="monday.com">
+    </div>
+
+    <button class="btn-pantalla" id="fullscreenBtn" type="button" title="Pantalla completa" aria-label="Pantalla completa">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path id="iconoExpandir" d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+        </svg>
+    </button>
+
+    
+
+    <div class="container" id="inicioContainer" style="display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100vh;justify-content:center;padding:16px; transition: opacity 0.3s;">
+        <!-- Paso único: elegir personaje de monday.com -->
+        <div id="personaje-section" style="display:flex;flex-direction:column;align-items:center;position:relative;text-align:center;background: #ffffff; border: 1px solid #e9ecef; padding:32px 36px;border-radius:20px;box-shadow: 0 8px 32px rgba(24, 27, 52, 0.12);width:min(94vw, 980px);max-height:94vh;">
+            <h2 style="font-size: 2.4rem; margin-bottom: 8px; font-weight: 800; line-height:1.15;">Elige tu personaje</h2>
+            <p style="color:#5C6C75; font-size:1.05rem; margin-bottom:20px;">Vas a aparecer abrazado con él, con el mismo estilo</p>
+            <div class="styles-grid" id="personaje-grid" style="display:grid;margin-bottom:18px;">
+                <!-- Se llena con JS -->
+            </div>
+            <button id="btn-personaje-next" style="background: #6161FF; color: #ffffff; border: none; padding: 12px 30px; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-top: 20px; box-shadow: 0 4px 15px rgba(97, 97, 255, 0.35);" disabled>Continuar →</button>
+        </div>
+    </div>
+    <script>
+        // Personajes de monday.com. El id debe coincidir con las claves de PERSONAJES en server.js
+        const PERSONAJES = [
+            { id: '1', name: 'Performance Analyst', img: 'img/personaje/personaje1.png' },
+            { id: '2', name: 'Content Creator',       img: 'img/personaje/personaje2.png' },
+            { id: '3', name: 'Piloto Nocturno',   img: 'img/personaje/personaje3.png' },
+            { id: '4', name: 'Comandante Turquesa', img: 'img/personaje/personaje4.png' },
+            { id: '5', name: 'Piloto Fucsia',     img: 'img/personaje/personaje5.png' },
+            { id: '6', name: 'Piloto Atardecer',  img: 'img/personaje/personaje6.png' },
+            { id: '7', name: 'Piloto Ártico',     img: 'img/personaje/personaje7.png' }
+        ];
+
+        function cargarPersonajes() {
+            const grid = document.getElementById('personaje-grid');
+            grid.innerHTML = '';
+
+            PERSONAJES.forEach(personaje => {
+                const div = document.createElement('div');
+                div.className = 'style-option';
+                div.style.cssText = 'padding:14px;background:#ffffff;border:2px solid #e9ecef;border-radius:15px;cursor:pointer;transition:all 0.3s ease;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;';
+                div.innerHTML = '<img src="' + personaje.img + '" alt="' + personaje.name + '" loading="lazy" class="style-thumb" style="object-fit:contain;background:transparent;">';
+
+                div.addEventListener('click', () => {
+                    document.querySelectorAll('#personaje-grid .style-option').forEach(opt => opt.classList.remove('seleccionado'));
+                    div.classList.add('seleccionado');
+                    window.personajeSeleccionado = personaje.id;
+                    document.getElementById('btn-personaje-next').disabled = false;
+                });
+                grid.appendChild(div);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarPersonajes();
+
+            // Personaje elegido -> pasa a la foto
+            document.getElementById('btn-personaje-next').addEventListener('click', function() {
+                if (!window.personajeSeleccionado) return;
+                document.getElementById('inicioContainer').style.display = 'none';
+                document.getElementById('generatorContainer').style.display = 'flex';
+                abrirCamaraAutomatica();
+            });
+        });
+
+        function abrirCamaraAutomatica() {
+            setTimeout(() => {
+                document.getElementById('cameraBtn').click();
+            }, 100);
+        }
+    </script>
+    <div class="container" id="generatorContainer" style="display:none; min-height:100vh; flex-direction:column; align-items:center; justify-content:center; padding:12px;">
+        <main class="main-content" style="position: relative; margin: 0 auto; text-align: center; background: #ffffff; border: 1px solid #e9ecef; padding: 18px; border-radius: 20px; box-shadow: 0 8px 32px rgba(24, 27, 52, 0.12); width: 90%; max-width: 500px; box-sizing: border-box; max-height: 92vh; overflow-y: auto;">
+            <div class="upload-section" id="fotoSection">
+                <h2 id="tituloFoto" style="font-size: 2.4rem; margin-bottom: 6px; font-weight: 800; line-height:1.15;">Tómate una foto</h2>
+                <p style="color:#5C6C75; font-size:1.05rem; margin-bottom:14px;">Vas a aparecer abrazado con tu personaje</p>
+
+                <div class="card" style="background: transparent; box-shadow: none; padding: 0;">
+                    
+                    <div class="upload-area" id="uploadArea">
+                    
+                        <button class="camera-btn" id="cameraBtn" type="button">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                                <circle cx="12" cy="13" r="4"></circle>
+                            </svg>
+                            Usar cámara
+                        </button>
+                        
+                        <div class="preview-container" id="previewContainer" style="display: none;">
+                            <img id="imagePreview" alt="Preview">
+                            <button class="remove-btn" id="removeBtn" title="Quitar imagen">
+                                <span style="display:flex;align-items:center;justify-content:center;width:20px;height:20px;color:#fff;font-size:1.3rem;font-weight:bold;line-height:1;">×</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- fin del paso de la foto -->
+
+            <button class="generate-btn" id="generateBtn" disabled style="display:none;">
+                <span class="btn-text">Crear mi imagen →</span>
+            </button>
+
+            <div class="result-section" id="resultSection" style="display: none;">
+                <div class="card result-card">
+                    <h2 style="font-size:2.4rem; font-weight:800; line-height:1.15;">Tu imagen</h2>
+                    <div class="result-image-container">
+                        <img id="resultImage" alt="Imagen generada">
+                    </div>
+                    <div class="result-side">
+                        <div class="result-actions">
+                            <button class="action-btn download-btn" id="downloadBtn" style="width: 220px;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                Descargar imagen
+                            </button>
+                            <button class="action-btn secondary" id="newBtn" style="width: 220px;">
+                                Crear otro
+                            </button>
+                        </div>
+
+                        <!-- El QR va justo debajo del botón de descarga -->
+                        <div id="qr-container"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="loading-overlay" id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 9999; justify-content: center; align-items: center;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:22px;">
+                <div class="loader"></div>
+                <div id="loadingMsg" style="color:#ffffff; font-size:1.15rem; font-weight:600; text-align:center; max-width:320px; text-shadow:0 2px 6px rgba(0,0,0,0.6);">Preparando tu imagen...</div>
+            </div>
+        </div>
+
+        <div class="toast" id="toast"></div>
+
+       
+    </div>
+
+    <!-- Modal de cámara -->
+<div class="camera-modal" id="cameraModal">
+    <div class="camera-content">
+        <video id="cameraVideo" autoplay playsinline></video>
+        <div id="countdown" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:8rem;color:white;font-weight:bold;text-shadow:0 0 20px rgba(0,0,0,0.8);display:none;pointer-events:none;z-index:10001;">3</div>
+        <button id="captureBtn">Capturar foto →</button>
+        <button id="closeCameraBtn">Cerrar</button>
+    </div>
+</div>
+
+    <script src="app.js?v=26"></script>
+    <script>
+        function reiniciarProceso() {
+            // Oculta las pantallas del generador
+            document.getElementById('generatorContainer').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('cameraModal').style.display = 'none';
+            document.getElementById('generateBtn').style.display = 'none';
+            document.getElementById('fotoSection').style.display = 'block';
+            restaurarAnchoPanel();
+
+            // Limpiar campos
+            document.getElementById('imagePreview').src = '';
+            document.getElementById('previewContainer').style.display = 'none';
+            document.getElementById('generateBtn').disabled = true;
+
+            const qrContainer = document.getElementById('qr-container');
+            if (qrContainer) qrContainer.innerHTML = '';
+
+            // Resetear variables globales
+            window.personajeSeleccionado = null;
+
+            // Volver a elegir personaje
+            document.getElementById('btn-personaje-next').disabled = true;
+            document.querySelectorAll('#personaje-grid .style-option').forEach(function(o) { o.classList.remove('seleccionado'); });
+            document.getElementById('inicioContainer').style.display = 'flex';
+            document.body.style.overflow = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Bloquear el clic derecho en toda la página
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>

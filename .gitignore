@@ -1,0 +1,95 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno (¡contiene la API key!)
+.env
+
+# Archivos generados en tiempo de ejecución
+uploads/
+downloads/
+historias/
+
+# Logs
+*.log
+npm-debug.log*
+
+# ---------------------------------------------------------------------------
+# Fuentes de marca.
+# public/fonts/ SÍ se versiona (Figtree y Poppins, de monday.com, ambas de uso
+# libre). Las fuentes comerciales del proyecto anterior de MongoDB NO se
+# versionan aquí: el repo es público y Euclid Circular A tiene licencia
+# comercial, MongoDB Value Serif es propietaria. Ya no las usa la app.
+# ---------------------------------------------------------------------------
+public/fonts/EuclidCircularA-*.ttf
+public/fonts/MongoDBValueSerif-*.ttf
+public/fonts/SourceCodePro-*.ttf
+mongo db-fonts/
+*.otf
+
+# Material de marca original (Brand Book, ESG Report, paquetes completos)
+MongoDB-selected-assets/
+*.zip
+
+# Muestras originales de los estilos (varios MB): en public/img/estilos/ están
+# ya optimizadas
+Stylo_dibujo/
+
+# Originales de las figuras del paso "¿Cómo te dibujamos?": las copias que
+# usa la app están en public/img/personaje/
+personaje/
+
+# Documentos de trabajo
+*.docx
+~$*
+
+# Assets del proyecto anterior (generador de cartas FIFA) y fotos de prueba.
+# La app solo usa public/img/mongodb/ y public/img/monday/, así que se
+# versionan unicamente esas subcarpetas.
+public/img/*
+!public/img/mongodb/
+!public/img/estilos/
+!public/img/personaje/
+!public/img/monday/
+public/kyndryl/
+public/qrious.min.js
+public/icons/
+
+# Figuras del viejo paso "¿Cómo te dibujamos?" (hombre/mujer): ya no se usan,
+# el personaje ahora lo elige la grilla de public/img/personaje/personajeN.png
+public/img/personaje/hombre.png
+public/img/personaje/hombre2.png
+public/img/personaje/mujer1.png
+public/img/personaje/mujer2.png
+
+# Originales sin procesar de los personajes de monday.com (3-4MB cada uno):
+# las copias optimizadas que usa la app están en public/img/personaje/
+perosonaje_monday/
+personaje_*.png
+
+# Pack de logo de monday.com sin procesar: las copias que usa la app están
+# en public/img/monday/
+monday.com logo pack 2024/
+monday_logo_icon_*.png
+
+# Fuentes de monday.com sin organizar: las copias que usa la app están en
+# public/fonts/
+contenido-monday/
+/fonts/
+
+# Assets sueltos sin relación con la app actual
+agentes/
+ciculos/
+
+# Respaldo local de versiones anteriores del código (no es parte de la app)
+_backup_pre_personajes/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+.env.bak
