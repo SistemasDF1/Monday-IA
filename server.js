@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 3000;
 const PUBLIC_URL = (process.env.PUBLIC_URL || process.env.RENDER_EXTERNAL_URL || '').replace(/\/$/, '');
 
 // Sirve para comprobar de un vistazo que el proceso corre el codigo actual.
-const MOTOR = 'personaje-abrazo-v6';
+const MOTOR = 'personaje-abrazo-v7';
 
 // Carpeta donde vive todo lo que debe sobrevivir.
 // En Render el disco del contenedor se borra en cada deploy: hay que montar un
@@ -141,9 +141,9 @@ function elegirPoseAlAzar() {
 // referencia (no solo descrito en texto) para que el modelo lo copie tal
 // cual, en vez de reinventarlo.
 function promptPersonaje({ personaje, pose }) {
-  return `TAREA MÁS IMPORTANTE, léela primero: en la imagen que vas a crear, uno de los dos personajes debe tener LA CARA REAL Y EXACTA de la persona de la PRIMERA imagen adjunta, solo que renderizada en 3D. No es una cara genérica "inspirada" en ella: es un retrato 3D de ESA persona específica, con la misma precisión con la que un estudio hace un avatar/Bitmoji personalizado a partir de una foto.
+  return `TAREA MÁS IMPORTANTE, léela primero: en la imagen que vas a crear, uno de los dos personajes debe ser una CARICATURA EN 3D, estilo figura de colección/mascota (igual que la SEGUNDA imagen adjunta), de la persona de la PRIMERA imagen adjunta. "Caricatura" aquí significa: mismo lenguaje visual divertido y estilizado del personaje de referencia —ojos grandes y expresivos, proporciones de figura de juguete, superficies lisas tipo plástico—, pero CLARAMENTE RECONOCIBLE como esa persona específica, no una cara genérica. Es el punto medio entre un retrato realista y un personaje inventado: se nota que es ELLA/ÉL, dibujado con el mismo encanto y estilo que el personaje de monday.com.
 
-Antes de dibujar, MIRA con atención la PRIMERA imagen y toma nota mental de sus rasgos únicos: forma exacta de la cara (ovalada, cuadrada, redonda, alargada...), forma y color exactos de los ojos, forma de la nariz, forma de la boca y labios, forma y grosor de las cejas, línea del cabello, mentón, pómulos, y cualquier rasgo distintivo (lunares, pecas, barba, bigote, arrugas de expresión). Reproduce TODOS esos rasgos con fidelidad al pasarla a 3D. Si al final la cara generada podría ser la de otra persona cualquiera, está MAL: vuelve a mirar la foto y corrígelo.
+Antes de dibujar, MIRA con atención la PRIMERA imagen y toma nota mental de sus rasgos únicos: forma exacta de la cara (ovalada, cuadrada, redonda, alargada...), forma y color exactos de los ojos, forma de la nariz, forma de la boca y labios, forma y grosor de las cejas, línea del cabello, mentón, pómulos, y cualquier rasgo distintivo (lunares, pecas, barba, bigote, arrugas de expresión). Lleva esos rasgos al mismo estilo de caricatura 3D del personaje de referencia (puedes estilizar y simplificar formas, como lo haría un caricaturista), pero sin perder a la persona: si al final la cara generada podría ser la de cualquier otra persona, está MAL: vuelve a mirar la foto y corrígelo.
 
 TONO DE PIEL, con la misma prioridad: usa EXACTAMENTE el mismo tono de piel que se ve en la PRIMERA imagen. Míralo con cuidado antes de dibujar (claro, medio, oscuro, con sus matices reales) y reprodúcelo tal cual, ni más claro ni más oscuro que en la foto. No uses un tono de piel genérico ni el de ningún otro personaje de referencia.
 
@@ -158,7 +158,7 @@ QUÉ DEBES DIBUJAR:
 Una escena con AMBOS personajes de pie, posando juntos en esta pose específica: ${pose}
 
 - El personaje de monday.com (segunda imagen): EXACTAMENTE igual a la referencia, sin cambiar su traje, sus colores ni sus accesorios.
-- El segundo personaje es la persona de la PRIMERA imagen, con su cara real y su tono de piel real (ver arriba) y su cabello real (mismo color, largo y peinado), convertida a este mismo estilo de render 3D pero SIN caricaturizar ni estilizar de más los rasgos. Dale ropa casual simple y neutra: NO le pongas el traje de monday.com ni copies la ropa de la foto original.
+- El segundo personaje es la persona de la PRIMERA imagen, con su cara real y su tono de piel real (ver arriba) y su cabello real (mismo color, largo y peinado), convertida al estilo de caricatura 3D descrito arriba (ver TAREA MÁS IMPORTANTE): estilizada como figura de colección, pero reconocible como ella. Dale ropa casual simple y neutra: NO le pongas el traje de monday.com ni copies la ropa de la foto original.
 - LENTES: mira la PRIMERA imagen con cuidado. Si la persona NO trae lentes puestos, dibújala SIN lentes de ningún tipo (ni de sol ni graduados, ni goggles). Si SÍ trae lentes en la foto, cópialos tal cual. Los goggles/gafas del personaje de monday.com son SOLO de ese personaje: no se los pongas a la persona por imitación, aunque el personaje los lleve puestos.
 - Ambos personajes deben compartir el MISMO estilo de render, la misma calidad de materiales, la misma iluminación y proporciones de mascota/figura de colección.
 
