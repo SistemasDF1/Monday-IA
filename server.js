@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 3000;
 const PUBLIC_URL = (process.env.PUBLIC_URL || process.env.RENDER_EXTERNAL_URL || '').replace(/\/$/, '');
 
 // Sirve para comprobar de un vistazo que el proceso corre el codigo actual.
-const MOTOR = 'personaje-abrazo-v4';
+const MOTOR = 'personaje-abrazo-v5';
 
 // Carpeta donde vive todo lo que debe sobrevivir.
 // En Render el disco del contenedor se borra en cada deploy: hay que montar un
@@ -124,10 +124,14 @@ const PERSONAJES = {
 // imagen de referencia (no solo descrito en texto) para que el modelo lo
 // copie tal cual, en vez de reinventarlo.
 function promptPersonaje({ personaje }) {
-  return `Vas a crear UNA SOLA imagen ilustrada en 3D, con el mismo estilo de render tipo "figura/mascota de juguete" que tiene la SEGUNDA imagen adjunta.
+  return `TAREA MÁS IMPORTANTE, léela primero: en la imagen que vas a crear, uno de los dos personajes debe tener LA CARA REAL Y EXACTA de la persona de la PRIMERA imagen adjunta, solo que renderizada en 3D. No es una cara genérica "inspirada" en ella: es un retrato 3D de ESA persona específica, con la misma precisión con la que un estudio hace un avatar/Bitmoji personalizado a partir de una foto.
+
+Antes de dibujar, MIRA con atención la PRIMERA imagen y toma nota mental de sus rasgos únicos: forma exacta de la cara (ovalada, cuadrada, redonda, alargada...), forma y color exactos de los ojos, forma de la nariz, forma de la boca y labios, forma y grosor de las cejas, línea del cabello, mentón, pómulos, y cualquier rasgo distintivo (lunares, pecas, barba, bigote, arrugas de expresión). Reproduce TODOS esos rasgos con fidelidad al pasarla a 3D. Si al final la cara generada podría ser la de otra persona cualquiera, está MAL: vuelve a mirar la foto y corrígelo.
+
+Vas a crear UNA SOLA imagen ilustrada en 3D, con el mismo estilo de render tipo "figura/mascota de juguete" que tiene la SEGUNDA imagen adjunta.
 
 HAY DOS IMÁGENES DE REFERENCIA:
-1. La PRIMERA imagen es la foto de una persona real.
+1. La PRIMERA imagen es la foto real de la persona cuya cara debes reproducir con fidelidad (ver arriba).
 2. La SEGUNDA imagen es "${personaje.nombre}", un personaje 3D oficial de monday.com. Cópialo TAL CUAL aparece en la imagen: mismo traje, mismos colores exactos, mismo peinado, mismos accesorios (gafas, cascos, audífonos, etc.) y el mismo estilo de render (plástico/juguete brillante, sombreado suave, iluminación de estudio). No lo rediseñes ni inventes variaciones, úsalo como referencia visual exacta.
 Para reforzarlo en texto: ${personaje.descripcion}
 
@@ -135,7 +139,7 @@ QUÉ DEBES DIBUJAR:
 Una escena con AMBOS personajes de pie, uno al lado del otro, donde SOLO UNO de los dos sujeta al otro (una mano en el hombro, o un brazo alrededor del hombro/espalda del otro). NO es un abrazo de frente con los dos brazos de cada personaje: es un gesto simple de camaradería, de lado a lado, como dos amigos posando juntos para una foto.
 
 - El personaje de monday.com (segunda imagen): EXACTAMENTE igual a la referencia, sin cambiar su traje, sus colores ni sus accesorios.
-- El segundo personaje es la persona de la PRIMERA imagen convertida a este mismo estilo de render 3D, pero manteniendo su cara TAL CUAL es en la foto: no la caricaturices ni la estilices de más. Copia con fidelidad la forma real de su cara, sus proporciones, su expresión, sus rasgos exactos (ojos, nariz, boca, cejas), su tono de piel real y su cabello (mismo color, largo y peinado). Debe ser fácilmente reconocible como ESA persona, solo renderizada en 3D en vez de foto. Dale ropa casual simple y neutra: NO le pongas el traje de monday.com ni copies la ropa de la foto original.
+- El segundo personaje es la persona de la PRIMERA imagen, con su cara real (ver la tarea más importante arriba), su tono de piel real y su cabello real (mismo color, largo y peinado), convertida a este mismo estilo de render 3D pero SIN caricaturizar ni estilizar de más los rasgos. Dale ropa casual simple y neutra: NO le pongas el traje de monday.com ni copies la ropa de la foto original.
 - LENTES: mira la PRIMERA imagen con cuidado. Si la persona NO trae lentes puestos, dibújala SIN lentes de ningún tipo (ni de sol ni graduados, ni goggles). Si SÍ trae lentes en la foto, cópialos tal cual. Los goggles/gafas del personaje de monday.com son SOLO de ese personaje: no se los pongas a la persona por imitación, aunque el personaje los lleve puestos.
 - Ambos personajes deben compartir el MISMO estilo de render, la misma calidad de materiales, la misma iluminación y proporciones de mascota/figura de colección.
 
@@ -143,9 +147,10 @@ FONDO Y COMPOSICIÓN:
 Fondo blanco o gris muy claro, liso, tipo estudio de producto, igual que el de la imagen de referencia del personaje. Sin escenografía, sin texto, sin logotipos, sin marcos. Encuadre de cuerpo completo o 3/4, centrado, con espacio parejo alrededor de ambos personajes.
 
 IMPORTANTE:
-- Una sola imagen, un solo par de personajes abrazándose.
+- Una sola imagen, un solo par de personajes posando juntos.
 - No copies el fondo de la foto original de la persona.
-- No mezcles los trajes: cada personaje conserva su propio vestuario.`;
+- No mezcles los trajes: cada personaje conserva su propio vestuario.
+- Antes de terminar, revisa: ¿la cara del segundo personaje reproduce con fidelidad los rasgos exactos de la PRIMERA imagen? Si tienes duda, prioriza el parecido real por encima del estilo.`;
 }
 
 // Genera la imagen final y devuelve su buffer. Reintenta una vez: los fallos
